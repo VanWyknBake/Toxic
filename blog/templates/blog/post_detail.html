@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+{% load thumbnail %}
+
+{% block content %}
+
+    <article class="media content-section text-center ml-2 background-color-light mt-5">
+        <div class="article-metadata">
+            <img class='rounded-circle article-img' src="{{ object.author.profile.image.url}}">
+        
+            <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author|upper}}</a>
+            <small class="text-muted">{{ object.date_posted }}</small><br>
+        
+        </div>
+        
+        <div class="media-body">
+            
+            
+            
+            <h2 class='article-title mt-3'>{{ object.title|title }}</h2>
+            {% if post.image %}
+            <small>*Click On Image For Full Size*</small><br>
+            <a href="{{ post.image.url }}" class="pp2">
+            {% thumbnail post.image "420x160" crop="top" as im %}
+            <img class="rounded center" src="{{ im.url }}" width="{{ im.width}}" height="{{ im.height }}">
+            {% endthumbnail %}
+            </a>
+            {% endif %}
+
+            <p class="article-content1  my-3" style="text-align: left;">{{ object.content|title }}</p>
+        </div>
+        <div>
+            {% if object.author == user %}
+            <a style="position:relative;" class="mr-2 text-info" href="{% url 'post-update' object.id%}">
+                <li class="fa fa-pencil"></li>&nbsp;<small>Edit</small>
+            </a><br><br>
+
+            <a style="position:relative;"class="mr-2 text-muted" href="{% url 'post-delete' object.id%}">
+                <li class="fa fa-trash-o"></li>&nbsp;<small>Delete</small>
+            </a>&nbsp;<br>
+            
+            {% endif %}
+        </div>
+        
+</article>
+{% endblock content %}
