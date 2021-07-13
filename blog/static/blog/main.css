@@ -1,6 +1,6 @@
 body {
-  background:  radial-gradient( rgb(206, 206, 206),#dcdddd) #d6fffa;
-  color: #333333;
+  background:  radial-gradient( rgb(68, 68, 68),#a0a0a0) #ffffff;
+  color: #000000;
   margin-top: 5rem;
   font-family: 'Raleway', sans-serif;
   display:content;
@@ -22,8 +22,8 @@ ul {
 
 .bg-steel {
   
-  background-color:rgb(95, 158, 150);
-  padding: 15px;
+  background-color:rgb(0, 0, 0);
+  padding: 10px;
   opacity: 75%;
   border: 1px sloid rgb(255, 254, 247);
   box-shadow: 1px 1px 10px 1px #0f404f;
@@ -51,7 +51,7 @@ ul {
   border:1.5px solid rgb(255, 255, 255);
   border-radius: 3px;
   margin-bottom: 20px;
-  box-shadow: 3px 4px 15px 0.5px rgb(153, 153, 153);
+  box-shadow: 3px 4px 15px 0.5px rgb(49, 49, 49);
   
 }
 
@@ -93,7 +93,7 @@ a.article-title:hover {
 }
 .article-content {
   white-space: pre-line;
-  border-bottom: 0.5px solid #c4c4c4;
+  border-bottom: 0.5px solid #c4c3c3;
   border-block-end-width: 1px;
   padding-left: 20px;
   padding-right: 20px;

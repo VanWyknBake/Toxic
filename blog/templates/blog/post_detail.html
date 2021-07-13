@@ -7,30 +7,40 @@
         <div class="article-metadata">
             <img class='rounded-circle article-img' src="{{ object.author.profile.image.url}}">
         
-            <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author|upper}}</a>
+            <p>Reported by:</p><a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author|upper}}</a>
             <small class="text-muted">{{ object.date_posted }}</small><br>
+            <hr>
+            <form action="{% url 'like_post' post.pk %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-dark btn-outline-info btn-sm">Agree</button><br>( {{ total_likes }} )
+            </form>
+            <br>
+            <form action="{% url 'dislike_post' post.pk %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" name="post_id" value="{{post.id}}" class="btn btn-dark btn-outline-danger btn-sm">Dispute</button><br>( {{ total_dislikes }} )
+            </form>
         
         </div>
         
         <div class="media-body">
             
             
-            
-            <h2 class='article-title mt-3'>{{ object.title|title }}</h2>
+            <h2 class='article-title mt-3'>Current IGN:&nbsp;</h2> <h4 style="font-family: 'Orbitron', sans-serif;">{{ object.ign }}</h4>
+            <h2 class='article-title mt-3'>UID:&nbsp;</h2> <h4 style="font-family: 'Teko', sans-serif;">{{ object.uid|title }}</h4>
             {% if post.image %}
-            <small>*Click On Image For Full Size*</small><br>
+            <small>Evidence</small><br>
             <a href="{{ post.image.url }}" class="pp2">
-            {% thumbnail post.image "420x160" crop="top" as im %}
+            {% thumbnail post.image "220x160" crop="top" as im %}
             <img class="rounded center" src="{{ im.url }}" width="{{ im.width}}" height="{{ im.height }}">
             {% endthumbnail %}
             </a>
             {% endif %}
 
-            <p class="article-content1  my-3" style="text-align: left;">{{ object.content|title }}</p>
+            <p style="text-align: left;"><h2>Reason: </h2><h4 style="font-family: 'Teko', sans-serif;">{{object.content|title }}</h4> </p>
         </div>
         <div>
             {% if object.author == user %}
-            <a style="position:relative;" class="mr-2 text-info" href="{% url 'post-update' object.id%}">
+            <a style="position:relative;" class="mr-2 text-danger" href="{% url 'post-update' object.id%}">
                 <li class="fa fa-pencil"></li>&nbsp;<small>Edit</small>
             </a><br><br>
 

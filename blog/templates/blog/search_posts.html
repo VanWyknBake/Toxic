@@ -1,0 +1,30 @@
+{% extends 'blog/base.html' %}
+{% load thumbnail %}
+
+{% block content %}
+    {% csrf_token %}
+    {% if searched %}
+
+        <h1>Results for: {{ searched }}</h1><br>
+        {% for post in posts %}
+        
+
+        <h2 class='article-title mt-3'>Current IGN:</h2> <p class='article-title style="font-family: 'Orbitron', sans-serif; color:black">{{ post.ign|title }}</p>
+        <h2 class='article-title mt-3'>UID: </h2><small><p class='article-title style="font-family: 'Orbitron', sans-serif;color:black"><a href="{% url 'post-detail' post.id%}">{{ post.uid }}</a></p></small>
+        
+        
+        <hr style="color: black;">
+        {% endfor %}
+        
+        {% if not posts%}
+        
+        <h1>UID: <br>{{ searched }}<br>has not been reported!</h1>
+    {% endif %}
+    {% else %}
+        <h1>No UID entered...</h1>
+    
+
+    {% endif %}
+    
+
+{% endblock content %}

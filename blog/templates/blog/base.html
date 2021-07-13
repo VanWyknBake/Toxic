@@ -1,13 +1,16 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<title>QSnippets</title>
+<title>Toxic Paradise</title>
 <head>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -31,39 +34,58 @@
     <header class="site-header">
         <nav class='navbar navbar-expand-md navbar-dark bg-steel fixed-top'>
             <div class="container">
-                <a style="background: radial-gradient( white, white,#dbf5f2,#bcfff6 );border:2px solid rgb(30, 102, 114);margin:1px; border-radius: 5%; padding:10px; font-family:'Raleway, bold' letter-spacing:2pt" class="navbar-brand mr-4 text-secondary" href="{% url 'blog-home'%}"><big>
-                <li class="fa fa-code"></li></big>&nbsp;QSnippets</a>
+                <a style="background: radial-gradient( white, white,#dbf5f2,#979797 );border:2px solid rgb(10, 34, 38);margin:1px; border-radius: 5%; padding:10px; font-family:'Raleway', sans-serif; " class="navbar-brand mr-4 text-dark" href="{% url 'blog-home'%}"><big>
+                <i class="bx bxs-radiation bx-burst"></i></big>&nbsp;Toxic Paradise</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
                     aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class='fa fa-code'></span>
+                    <span class='fa fa-bars'></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
                         <a class='nav-item nav-link' href="{% url 'blog-home'%}"><li class="fa fa-home"></li>&nbsp;Home</a>
                         <a class='nav-item nav-link' href="{% url 'about' %}"><li class="fa fa-question-circle-o"></li>&nbsp;About</a>
-                    </div>
-
-                    <div class="navbar-nav">
                         <a class='nav-item nav-link' href="{% url 'post-create' %}">
-                            <li class="fa fa-cut"></li>&nbsp;New Snippet
-                        </a>
+                            <li class="fa fa-address-card-o"></li>&nbsp;Report Player
+                        </a> 
+                        <div class="navbar-nav">
+                            {% if user.is_authenticated %}
+                        
+                            <a class='nav-item nav-link' href="{% url 'logout' %}">
+                                <li class="fa fa-sign-out"></li>&nbsp;Log Out
+                            </a>
+                        
+                            {% else %}
+                            <a class='nav-item nav-link' href="{% url 'login' %}">
+                                <li class="fa fa-sign-in"></li>&nbsp;Login
+                            </a>
+                            <a class='nav-item nav-link' href="{% url 'register' %}">
+                                <li class="fa fa-pencil"></li>&nbsp;Register
+                            </a>
+                            {% endif %}
+                        
+                        </div>
+                                               
                     </div>
+                    <form method="POST" action="{% url 'search_posts' %}">
+                        
+                        {% csrf_token %}
+                        
+                        <input type="search" placeholder="Search UID" aria-label="search" name="searched">&nbsp;
+                        <button class="btn btn-outline-info btn-sm" type="submit">Search</button>
+                    
+                    </form>
+                    
+                    
+                    
+                    
 
                     <!--Navbar right side-->
-                    <div class="navbar-nav">
-                        {% if user.is_authenticated %}
-                        <a class='nav-item nav-link' href="{% url 'profile' %}">
-                            <li class="fa fa-user-circle-o"></li>&nbsp;{{ user.username }}
-                        </a>
-                            <a class='nav-item nav-link' href="{% url 'logout' %}"><li class="fa fa-sign-out"></li>&nbsp;Log Out</a>
-                            
-                        {% else %}
-                            <a class='nav-item nav-link' href="{% url 'login' %}"><li class="fa fa-sign-in"></li>&nbsp;Login</a>
-                            <a class='nav-item nav-link' href="{% url 'register' %}"><li class="fa fa-pencil"></li>&nbsp;Register</a>
-                        {% endif %}
-                    </div>
+                    
+                    
                 </div>
+                
             </div>
+            
         </nav>
     </header>
     <br>
@@ -81,22 +103,28 @@
                {% endif %}
                {% block content %} {% endblock content %}
            </div>
-           <div class="col-md-4" >
-               <div class="content-section mt-5" >
-                   <h3 class="text-center "style="box-shadow:1px 1px 4px 1px #eee; background-color: rgb(95, 158, 150); border-radius:2px; color:white; ">Dashboard</h3>
-                   <p class='text-muted'>
-                       <ul class="list-group" >
-                           <li class="list-group-item list-group-item-light"><a href="{% url 'blog-home' %}">All Snippets</a></li>
-                           <li class="list-group-item list-group-item-light"><a href="#">Anouncements</a></li>
-                           <li class="list-group-item list-group-item-light"><a href="#">Calendars</a></li>
-                           <li class="list-group-item list-group-item-light"><a href="{% url 'post-create' %}">New Snippet</a></li>
-                       </ul>
-                   </p>
-               </div>
-           </div>
+        <div class="col-md-4">
+            <div class="content-section mt-5">
+                <h3 class="text-center "
+                    style="box-shadow:1px 1px 4px 1px #eee; background-color: rgb(36, 36, 36); border-radius:2px; color:white; ">
+                    Dashboard</h3>
+                <p class='text-muted'>
+                    {% if user.is_authenticated %}
+                    <p style="text-align: center;">{{ user.username|upper }}</p> 
+                    {% endif %}
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light"><a href="{% url 'blog-home' %}">All Reports</a></li>
+        
+        
+                    <li class="list-group-item list-group-item-light"><a href="{% url 'post-create' %}">Report Player</a></li>
+                    
+                </ul>
+                </p>
+            </div>
+        </div>
        </div>
        <hr>
-       <footer class="text-center"><small>Copyrigth &copy; &nbsp; Marcel van Wyk Development Projects&trade;</small></footer>
+       <footer class="text-center"><small>Copyrigth &copy; &nbsp; ByMarcel&trade;</small></footer>
        <br>
     </main>
 
@@ -116,6 +144,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+<script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
 </body>
 
 </html>
